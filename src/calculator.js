@@ -8,6 +8,9 @@
  * - Subtraction (-): Subtracts the second number from the first
  * - Multiplication (*): Multiplies two numbers together
  * - Division (/): Divides the first number by the second
+ * - Modulo (%): Returns the remainder of division
+ * - Power (^): Returns base raised to the exponent
+ * - Square Root (sqrt): Returns the square root of a number
  */
 
 const readline = require('readline');
@@ -45,6 +48,49 @@ function calculate(num1, operator, num2) {
     default:
       return 'Error: Invalid operator';
   }
+}
+
+// Modulo operation: returns the remainder of a divided by b
+function modulo(a, b) {
+  const numA = parseFloat(a);
+  const numB = parseFloat(b);
+
+  if (isNaN(numA) || isNaN(numB)) {
+    return 'Error: Invalid number input';
+  }
+
+  if (numB === 0) {
+    return 'Error: Division by zero';
+  }
+
+  return numA % numB;
+}
+
+// Power operation: returns base raised to the exponent
+function power(base, exponent) {
+  const numBase = parseFloat(base);
+  const numExponent = parseFloat(exponent);
+
+  if (isNaN(numBase) || isNaN(numExponent)) {
+    return 'Error: Invalid number input';
+  }
+
+  return Math.pow(numBase, numExponent);
+}
+
+// Square root operation: returns the square root of n with error handling for negative numbers
+function squareRoot(n) {
+  const num = parseFloat(n);
+
+  if (isNaN(num)) {
+    return 'Error: Invalid number input';
+  }
+
+  if (num < 0) {
+    return 'Error: Cannot calculate square root of a negative number';
+  }
+
+  return Math.sqrt(num);
 }
 
 // Display welcome message and instructions
@@ -101,4 +147,4 @@ if (require.main === module) {
   runCalculator();
 }
 
-module.exports = { calculate };
+module.exports = { calculate, modulo, power, squareRoot };
