@@ -8,9 +8,9 @@
  * - Subtraction (-): Subtracts the second number from the first
  * - Multiplication (*): Multiplies two numbers together
  * - Division (/): Divides the first number by the second
- * - Modulo (%): Returns the remainder of dividing the first number by the second
- * - Exponentiation (**): Raises the first number to the power of the second
- * - Square Root (sqrt): Returns the square root of a number (usage: sqrt <number>)
+ * - Modulo (%): Returns the remainder of division
+ * - Power (^): Returns base raised to the exponent
+ * - Square Root (sqrt): Returns the square root of a number
  */
 
 const readline = require('readline');
@@ -20,25 +20,8 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// Calculate square root of a number
-function squareRoot(num) {
-  const a = parseFloat(num);
-  if (isNaN(a)) {
-    return 'Error: Invalid number input';
-  }
-  if (a < 0) {
-    return 'Error: Cannot take square root of a negative number';
-  }
-  return Math.sqrt(a);
-}
-
 // Perform calculation based on operation
 function calculate(num1, operator, num2) {
-  // Square root only requires one operand
-  if (operator === 'sqrt') {
-    return squareRoot(num1);
-  }
-
   const a = parseFloat(num1);
   const b = parseFloat(num2);
 
@@ -62,18 +45,52 @@ function calculate(num1, operator, num2) {
         return 'Error: Division by zero';
       }
       return a / b;
-    case '%':
-      // Modulo: returns the remainder of dividing the first number by the second
-      if (b === 0) {
-        return 'Error: Division by zero';
-      }
-      return a % b;
-    case '**':
-      // Exponentiation: raises the first number to the power of the second
-      return Math.pow(a, b);
     default:
       return 'Error: Invalid operator';
   }
+}
+
+// Modulo operation: returns the remainder of a divided by b
+function modulo(a, b) {
+  const numA = parseFloat(a);
+  const numB = parseFloat(b);
+
+  if (isNaN(numA) || isNaN(numB)) {
+    return 'Error: Invalid number input';
+  }
+
+  if (numB === 0) {
+    return 'Error: Division by zero';
+  }
+
+  return numA % numB;
+}
+
+// Power operation: returns base raised to the exponent
+function power(base, exponent) {
+  const numBase = parseFloat(base);
+  const numExponent = parseFloat(exponent);
+
+  if (isNaN(numBase) || isNaN(numExponent)) {
+    return 'Error: Invalid number input';
+  }
+
+  return Math.pow(numBase, numExponent);
+}
+
+// Square root operation: returns the square root of n with error handling for negative numbers
+function squareRoot(n) {
+  const num = parseFloat(n);
+
+  if (isNaN(num)) {
+    return 'Error: Invalid number input';
+  }
+
+  if (num < 0) {
+    return 'Error: Cannot calculate square root of a negative number';
+  }
+
+  return Math.sqrt(num);
 }
 
 // Display welcome message and instructions
@@ -86,14 +103,8 @@ function displayWelcome() {
   console.log('  - : Subtraction');
   console.log('  * : Multiplication');
   console.log('  / : Division');
-  console.log('  % : Modulo (remainder)');
-  console.log('  ** : Exponentiation');
-  console.log('  sqrt : Square Root (usage: sqrt <number>)');
   console.log('\nUsage: Enter calculation in format: number operator number');
-  console.log('       For square root: sqrt <number>');
   console.log('Example: 5 + 3');
-  console.log('         2 ** 8');
-  console.log('         sqrt 16');
   console.log('Type "exit" or "quit" to close the calculator\n');
 }
 
@@ -110,21 +121,12 @@ function runCalculator() {
       return;
     }
 
-    // Parse input: expect format "number operator number" or "sqrt number"
+    // Parse input: expect format "number operator number"
     const parts = input.trim().split(/\s+/);
-
-    // Handle square root: "sqrt <number>"
-    if (parts.length === 2 && parts[0].toLowerCase() === 'sqrt') {
-      const result = squareRoot(parts[1]);
-      console.log(`Result: ${result}\n`);
-      rl.prompt();
-      return;
-    }
 
     if (parts.length !== 3) {
       console.log('Error: Please enter in format: number operator number');
-      console.log('       For square root: sqrt <number>');
-      console.log('Example: 5 + 3  or  sqrt 16\n');
+      console.log('Example: 5 + 3\n');
       rl.prompt();
       return;
     }
@@ -145,4 +147,4 @@ if (require.main === module) {
   runCalculator();
 }
 
-module.exports = { calculate, squareRoot };
+module.exports = { calculate, modulo, power, squareRoot };
