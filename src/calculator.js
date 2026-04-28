@@ -20,21 +20,26 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+// Calculate square root of a number
+function squareRoot(num) {
+  const a = parseFloat(num);
+  if (isNaN(a)) {
+    return 'Error: Invalid number input';
+  }
+  if (a < 0) {
+    return 'Error: Cannot take square root of a negative number';
+  }
+  return Math.sqrt(a);
+}
+
 // Perform calculation based on operation
 function calculate(num1, operator, num2) {
-  const a = parseFloat(num1);
-
   // Square root only requires one operand
   if (operator === 'sqrt') {
-    if (isNaN(a)) {
-      return 'Error: Invalid number input';
-    }
-    if (a < 0) {
-      return 'Error: Cannot take square root of a negative number';
-    }
-    return Math.sqrt(a);
+    return squareRoot(num1);
   }
 
+  const a = parseFloat(num1);
   const b = parseFloat(num2);
 
   if (isNaN(a) || isNaN(b)) {
@@ -69,18 +74,6 @@ function calculate(num1, operator, num2) {
     default:
       return 'Error: Invalid operator';
   }
-}
-
-// Calculate square root of a number
-function squareRoot(num) {
-  const a = parseFloat(num);
-  if (isNaN(a)) {
-    return 'Error: Invalid number input';
-  }
-  if (a < 0) {
-    return 'Error: Cannot take square root of a negative number';
-  }
-  return Math.sqrt(a);
 }
 
 // Display welcome message and instructions
